@@ -1,0 +1,92 @@
+measures	measures
+derivative_of	derivative of
+disrupts	disrupts
+prevents	prevents
+conceptually_related_to	conceptually related to
+manifestation_of	manifestation of
+diagnoses	diagnoses
+evaluation_of	evaluation of
+contains	contains
+co-occurs_with	co-occurs with
+conceptual_part_of	conceptual part of
+performs	performs
+degree_of	degree of
+interacts_with	interacts with
+uses	uses
+issue_in	issue in
+assesses_effect_of	assesses effect of
+property_of	property of
+precedes	precedes
+result_of	result of
+causes	causes
+practices	practices
+ingredient_of	ingredient of
+analyzes	analyzes
+surrounds	surrounds
+indicates	indicates
+associated_with	associated with
+affects	affects
+location_of	location of
+produces	produces
+process_of	process of
+measurement_of	measurement of
+connected_to	connected to
+carries_out	carries out
+method_of	method of
+adjacent_to	adjacent to
+occurs_in	occurs in
+consists_of	consists of
+interconnects	interconnects
+manages	manages
+complicates	complicates
+part_of	part of
+treats	treats
+isa	is a
+developmental_form_of	developmental form of
+exhibits	exhibits
+be_measures	be measures
+be_derivative_of	be derivative of
+be_disrupts	be disrupts
+be_prevents	be prevents
+be_conceptually_related_to	be conceptually related to
+be_manifestation_of	be manifestation of
+be_diagnoses	be diagnoses
+be_evaluation_of	be evaluation of
+be_contains	be contains
+be_co-occurs_with	be co-occurs with
+be_conceptual_part_of	be conceptual part of
+be_performs	be performs
+be_degree_of	be degree of
+be_interacts_with	be interacts with
+be_uses	be uses
+be_issue_in	be issue in
+be_assesses_effect_of	be assesses effect of
+be_property_of	be property of
+be_precedes	be precedes
+be_result_of	be result of
+be_causes	be causes
+be_practices	be practices
+be_ingredient_of	be ingredient of
+be_analyzes	be analyzes
+be_surrounds	be surrounds
+be_indicates	be indicates
+be_associated_with	be associated with
+be_affects	be affects
+be_location_of	be location of
+be_produces	be produces
+be_process_of	be process of
+be_measurement_of	be measurement of
+be_connected_to	be connected to
+be_carries_out	be carries out
+be_method_of	be method of
+be_adjacent_to	be adjacent to
+be_occurs_in	be occurs in
+be_consists_of	be consists of
+be_interconnects	be interconnects
+be_manages	be manages
+be_complicates	be complicates
+be_part_of	be part of
+be_treats	be treats
+be_isa	be is a
+be_developmental_form_of	be developmental form of
+be_exhibits	be exhibits
