@@ -9,6 +9,7 @@ project/
 >>── UMLS/           
 >>── FB15k-237/          
 >>── WN18RR/
->>── embedding/        # Pre-Encoding embedding           
+>>── embedding/        # Pre-Encoding embedding
+           
 >parameter/               # path to save trained weight
 >log/               # path to save training and validation log
