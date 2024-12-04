@@ -5,12 +5,12 @@ Joint Pre-Encoding Representation and Sturcture Embedding for Efficient and Low-
 📂 File Structure
 project/
 │
-├── data/               # data folder
-│   ├── UMLS/           
-│   ├── FB15k-237/          
-│   ├── WN18RR           
+>├── data/               # data folder
+>>│   ├── UMLS/           
+>>│   ├── FB15k-237/          
+>>│   ├── WN18RR           
 │
-├── folder2/               # Module 2 description
+>├── folder2/               # Module 2 description
 │   ├── script.sh          # Automation scripts
 │   └── config.yaml        # Configuration file
 │
