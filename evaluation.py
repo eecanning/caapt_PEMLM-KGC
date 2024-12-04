@@ -96,6 +96,6 @@ def evaluationWithSoftmax(softmax_value,groundtruth,entity2id,r_ht,labels,modes)
     # softmax = torch.softmax(output_logit, dim=1)
     ranks = torch.argsort(output_softmax_value, dim=1, descending=True)
     return ranks
-
+##
 
 
