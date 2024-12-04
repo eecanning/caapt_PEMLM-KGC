@@ -16,6 +16,8 @@ An efficient description-based model for KGC
 
 ## Getting Started 
 
+---
+
 ### requirements
 
 you can use pip install from requirements.txt
@@ -23,10 +25,18 @@ you can use pip install from requirements.txt
 pip install -r requirements.txt
 ```
 
+---
+### sepcial notes of files in dataset
 
+* **entity2text.txt** means **short** text entity description.
+* **entity2textlong.txt** means **long** text entity description.
+* **entity2textlong_filter.txt (if exists)** means the cleaned text description file only contains the long entity description existing in the training, validation, and test sets.
+* **entity2textlong_unseen.txt (if exists but NO USE)** represents the entities that have been filtered out. These entities do not all exist in the training set, the validation set, and the test set.
 
-
-
+* **train/valid/test_filter.csv (if exists)** including triples contain only the entities whose description existence in entity2textlong.txt
+* **train/valid/test_unseen.csv (if exists but NO USE)** represents the triplets of entities do not all exist in the training set, the validation set, and the test set.
+* **reverse_relation2text.txt** including [relation+reverse_relation] and their description.
+---
 ### Pre-Encoding step
 
 You can get three BERT-base precoding embeddings by running the following commands
@@ -41,33 +51,61 @@ python buildwordEmbedding.py --entity2text_path data/WN18RR/entity2text_filter.t
 ```
 #### UMLS Dataset
 ```aiignore
-python buildwordEmbedding.py --entity2text_path data/WN18RR/entity2text_filter.txt' --relation2text data/WN18RR/reverse_relation2text.txt --tokenizer_save_path model/WN18RR_tokenizer.json --embedding_path model/WN18RR_word_embeddings.pt
+python buildwordEmbedding.py --entity2text_path data/UMLS/entity2textlong.txt' --relation2text data/UMLS/reverse_relation2text.txt --tokenizer_save_path model/UMLS_tokenizer.json --embedding_path model/UMLS_word_embeddings.pt
 ```
-## Deployment 部署方法
+## Running with PEMLM
 
-部署到生产环境注意事项。
+---
+### Running PEMLM for **FB15k-237**
+```aiignore
+python FB15k237main.py --train_batch_size 256 --lr 1e-5 --epoch 200 
+```
+the trained weight is saved in **parameter/FB15k237_PEMLM.pth** and train/val log will be saved in **log/FB15K237_PEMLM_trainResult.json and log/FB15K237_PEMLM_valResult.json**
 
-## Contributing 贡献指南
+you can add --weight_path xxx.pth --train_result_json_path xxx.json --valid_result_json_path xxx.json for customize your save path
 
-Please read [CONTRIBUTING.md](#) for details on our code of conduct, and the process for submitting pull requests to us.
+---
+### Running PEMLM for **WN18RR**
+```aiignore
+python WN18RRmain.py --train_batch_size 256 --lr 3e-5 --epoch 200 
 
-清阅读 [CONTRIBUTING.md](#) 了解如何向这个项目贡献代码
+```
 
-## Release History 版本历史
+[//]: # (## Contributing 贡献指南)
 
-* 0.2.1
-    * CHANGE: Update docs
-* 0.2.0
-    * CHANGE: Remove `README.md`
-* 0.1.0
-    * Work in progress
+[//]: # ()
+[//]: # (Please read [CONTRIBUTING.md]&#40;#&#41; for details on our code of conduct, and the process for submitting pull requests to us.)
 
-## Authors 关于作者
+[//]: # ()
+[//]: # (清阅读 [CONTRIBUTING.md]&#40;#&#41; 了解如何向这个项目贡献代码)
 
-* **WangYan** - *Initial work* - [WangYan](https://wangyan.org)
+[//]: # ()
+[//]: # (## Release History 版本历史)
 
-查看更多关于这个项目的贡献者，请阅读 [contributors](#) 
+[//]: # ()
+[//]: # (* 0.2.1)
 
-## License 授权协议
+[//]: # (    * CHANGE: Update docs)
 
-这个项目 MIT 协议， 请点击 [LICENSE.md](LICENSE.md) 了解更多细节。
+[//]: # (* 0.2.0)
+
+[//]: # (    * CHANGE: Remove `README.md`)
+
+[//]: # (* 0.1.0)
+
+[//]: # (    * Work in progress)
+
+[//]: # ()
+[//]: # (## Authors 关于作者)
+
+[//]: # ()
+[//]: # (* **WangYan** - *Initial work* - [WangYan]&#40;https://wangyan.org&#41;)
+
+[//]: # ()
+[//]: # (查看更多关于这个项目的贡献者，请阅读 [contributors]&#40;#&#41; )
+
+[//]: # ()
+[//]: # (## License 授权协议)
+
+[//]: # ()
+[//]: # (这个项目 MIT 协议， 请点击 [LICENSE.md]&#40;LICENSE.md&#41; 了解更多细节。)

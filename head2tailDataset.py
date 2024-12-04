@@ -49,7 +49,7 @@ if __name__ == '__main__':
     from KGE.CoKE.utils import *
     from tokenizers import Tokenizer
 
-    train_data = read_triplets_from_txt('data/FB15k-237/train_long.tsv')
+    train_data = read_triplets_from_txt('data/FB15k-237/train_filter.tsv')
     dev_data = read_triplets_from_txt('data/FB15k-237/dev_long.tsv')
     test_data = read_triplets_from_txt('data/FB15k-237/test_long.tsv')
     entity2id = read_entity('data/FB15k-237/long_entities.txt')

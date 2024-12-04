@@ -31,13 +31,6 @@ def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,device
             pos_embeds = bert.embeddings.position_embeddings(torch.arange(0,input_ids.shape[1],dtype = torch.long).to(device))
             input_embeddings = word_embeds + pos_embeds
             labels = labels.to(device)
-            r_h = []
-            for input_id in input_ids:
-                r = input_id[2].item()
-                h = input_id[1].item()
-                r_token = tokenizer.id_to_token(r)
-                h_token = tokenizer.id_to_token(h)
-                r_h.append((r_token, h_token))
             output = model(inputs_embeds=input_embeddings, input_ids=input_ids)
             loss = criterion(output, labels)
             train_tail_loss += loss.item()
@@ -132,10 +125,10 @@ if __name__ == '__main__':
     parser.add_argument('--val_batch_size', type=int, default=64, help='Batch size for validation')
     parser.add_argument('--lr', type=float, default=3e-5, help='Learning rate for training')
     parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
-    parser.add_argument('--weight_path', type=str, default='parameter/WN18RR_combinehr.pth', help='model_weight_path')
-    parser.add_argument('--model_path', type=str, default='model/bert-base-uncased-model', help='original model path')
-    parser.add_argument('--embedding_path', type=str, default='model/WN18RR_word_embeddings_reverse.pt', help='UMLS embedding path')
-    parser.add_argument('--tokenizer_path', type=str, default='model/WN18RR_tokenizer_reverse.json',
+    parser.add_argument('--weight_path', type=str, default='parameter/WN18RR_PEMLM.pth', help='model_weight_path')
+    parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
+    parser.add_argument('--embedding_path', type=str, default='model/WN18RR_word_embeddings.pt', help='WN18RR embedding path')
+    parser.add_argument('--tokenizer_path', type=str, default='model/WN18RR_tokenizer.json',
                         help='tokenizer path')
     parser.add_argument('--entity_path', type=str, default='data/WN18RR/entities.txt', help='entity path')
     parser.add_argument('--train_data_path', type=str, default='data/WN18RR/train.tsv', help='train data path')

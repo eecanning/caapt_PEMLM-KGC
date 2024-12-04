@@ -10,7 +10,7 @@ def get_args():
     parser.add_argument('--model_path', type=str, default='model/bert-base-uncased-model', help='original model path')
     parser.add_argument('--tokenizer_path', type=str, default='model/Fb15k237_tokenizer_reverse.json', help='tokenizer path')
     parser.add_argument('--entity_path', type=str, default='data/FB15k-237/entities.txt', help='entity path')
-    parser.add_argument('--train_data_path', type=str, default='data/FB15k-237/train_long.tsv', help='train data path')
+    parser.add_argument('--train_data_path', type=str, default='data/FB15k-237/train_filter.tsv', help='train data path')
     parser.add_argument('--valid_data_path', type=str, default='data/FB15k-237/valid_filter.tsv', help='valid data path')
     parser.add_argument('--test_data_path', type=str, default='data/FB15k-237/test_filter.tsv', help='test data path')
     parser.add_argument('--hidden_size', type=int, default=768, help='hidden size')
