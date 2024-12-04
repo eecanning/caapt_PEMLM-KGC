@@ -1,0 +1,16 @@
+matplotlib==3.8.2
+numpy==1.26.3
+pandas==2.2.2
+pillow==10.2.0
+pytorch-pretrained-bert==0.6.2
+PyYAML==6.0.1
+scikit-learn==1.5.0
+scipy==1.13.1
+seaborn==0.13.2
+sentencepiece==0.2.0
+tokenizers==0.19.1
+torch @ http://download.pytorch.org/whl/cu121/torch-2.1.2%2Bcu121-cp310-cp310-linux_x86_64.whl
+torchvision @ http://download.pytorch.org/whl/cu121/torchvision-0.16.2%2Bcu121-cp310-cp310-linux_x86_64.whl
+tqdm @ file:///opt/conda/conda-bld/tqdm_1664392687731/work
+transformers==4.41.2
+urllib3 @ file:///croot/urllib3_1670526988650/work
