@@ -5,15 +5,10 @@ Joint Pre-Encoding Representation and Sturcture Embedding for Efficient and Low-
 📂 File Structure
 project/
 │
->├── data/               # data folder
->>│   ├── UMLS/           
->>│   ├── FB15k-237/          
->>│   ├── WN18RR           
-│
->├── folder2/               # Module 2 description
-│   ├── script.sh          # Automation scripts
-│   └── config.yaml        # Configuration file
-│
-├── main.py                # Entry point of the project
-├── README.md              # Documentation
-└── requirements.txt       # Python dependencies
+>── data/               # data folder
+>>── UMLS/           
+>>── FB15k-237/          
+>>── WN18RR/
+>>── embedding/        # Pre-Encoding embedding           
+>parameter/               # path to save trained weight
+>log/               # path to save training and validation log
