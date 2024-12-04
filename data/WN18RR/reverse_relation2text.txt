@@ -1,0 +1,22 @@
+_member_of_domain_usage	member of domain usage
+_has_part	has part
+_also_see	also see
+_hypernym	hypernym
+_synset_domain_topic_of	synset domain topic of
+_derivationally_related_form	derivationally related form
+_similar_to	similar to
+_instance_hypernym	instance hypernym
+_verb_group	verb group
+_member_meronym	member meronym
+_member_of_domain_region	member of domain region
+be_member_of_domain_usage	be member of domain usage
+be_has_part	be has part
+be_also_see	be also see
+be_hypernym	be hypernym
+be_synset_domain_topic_of	be synset domain topic of
+be_derivationally_related_form	be derivationally related form
+be_similar_to	be similar to
+be_instance_hypernym	be instance hypernym
+be_verb_group	be verb group
+be_member_meronym	be member meronym
+be_member_of_domain_region	be member of domain region

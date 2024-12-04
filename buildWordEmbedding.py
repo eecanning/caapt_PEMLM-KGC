@@ -15,7 +15,7 @@ if __name__ == '__main__':
     parser.add_argument('--main_model',  type=str, default='bert-base-uncased', help="main model path")
     parser.add_argument('--entity2text_path', type=str, required=True, help="entity2text file path")
     parser.add_argument('--relation2text_path', type=str, required=True, help="relation2text file path")
-    parser.add_argument('--embedding_json_path', type=str, required=True, help="Pre-Encoding embedding json save path")
+    # parser.add_argument('--embedding_json_path', type=str, required=True, help="Pre-Encoding embedding json save path")
     parser.add_argument('--tokenizer_save_path', type=str, required=True, help="new tokenizer path")
     parser.add_argument('--embedding_path', type=str, required=True, help="Pre-Encoding embedding save path")
 
