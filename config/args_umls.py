@@ -10,7 +10,7 @@ def get_args():
     parser.add_argument('--model_path', type=str, default='model/bert-base-uncased-model', help='original model path')
     parser.add_argument('--tokenizer_path', type=str, default='model/umls_tokenizer_reverse.json', help='tokenizer path')
     parser.add_argument('--entity_path', type=str, default='data/UMLS/entities.txt', help='entity path')
-    parser.add_argument('--relation_path', type=str, default='data/UMLS/relations.txt', help='entity path')
+    parser.add_argument('--relation_path', type=str, default='data/UMLS/reverse_relations.txt', help='entity path')
     parser.add_argument('--entity2text_path', type=str, default='data/UMLS/entity2textlong.txt', help='entity2text path')
     parser.add_argument('--relation2text_path', type=str, default='data/UMLS/reverse_relation2text.txt', help='relation2text path')
     parser.add_argument('--train_data_path', type=str, default='data/UMLS/train.tsv', help='train data path')

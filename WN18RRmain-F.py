@@ -131,7 +131,7 @@ if __name__ == '__main__':
     parser.add_argument('--train_batch_size', type=int, default=256, help='Batch size for training')
     parser.add_argument('--val_batch_size', type=int, default=64, help='Batch size for validation')
     parser.add_argument('--lr', type=float, default=3e-5, help='Learning rate for training')
-    parser.add_argument('--tran_lr', type=float, default=1e-3, help='Learning rate for training')
+    parser.add_argument('--tran_lr', type=float, default=1e-3, help='Learning rate for transModel')
     parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
     parser.add_argument('--weight_path', type=str, default='parameter/WN18RR_PEMLM-F.pth', help='model_weight_path')
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
@@ -195,17 +195,16 @@ if __name__ == '__main__':
     vocab = tokenizer.get_vocab()
     entity2id = read_entity(arguments.entity_path)
     label_num = len(entity2id)
-    #TransE model
+    # TransE model
     transe = TransE(label_num,relation_num,arguments.hidden_size,groundtruth,entity2id)
     classifier = Classifier(arguments.hidden_size,label_num)
-    #
     #simpleMlp
     simpleMlp = simpleMLP(arguments.hidden_size * 2, arguments.hidden_size)
 
     new_word_embeddings_weight = torch.load(arguments.embedding_path)
-    # #if weight exists, load it
+    # if weight exists, load it
     weight_path = arguments.weight_path
-    #Mask Bert 模型构建
+    # PEMLM -F
     Bert.embeddings.word_embeddings.weight = torch.nn.Parameter(new_word_embeddings_weight)
     model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier,device).to(device)
     if os.path.exists(weight_path):
@@ -216,7 +215,6 @@ if __name__ == '__main__':
         print('init model...')
 
     #train_data
-
 
     input_ids,heads,relations,labels = get_data_from_rawdata(tokenizer, onlyTail_train_data, entity2id,relation2id,
                                                                                'tail-batch')

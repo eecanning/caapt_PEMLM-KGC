@@ -11,7 +11,6 @@ from torch.utils.data import DataLoader
 from utils import *
 import os
 from head2tailDataset import *
-from
 
 def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,label_num,device):
     max_MRR = 0
@@ -133,7 +132,7 @@ if __name__ == '__main__':
     parser.add_argument('--train_batch_size', type=int, default=256, help='Batch size for training')
     parser.add_argument('--val_batch_size', type=int, default=64, help='Batch size for validation')
     parser.add_argument('--lr', type=float, default=1e-5, help='Learning rate for training')
-    parser.add_argument('--tran_lr', type=float, default=1e-4, help='Learning rate for training')
+    parser.add_argument('--tran_lr', type=float, default=1e-4, help='Learning rate for transModel')
     parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
     parser.add_argument('--weight_path', type=str, default='parameter/FB15k237_PEMLM-F.pth', help='model_weight_path')
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
