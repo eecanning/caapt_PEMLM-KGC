@@ -159,7 +159,7 @@ if __name__ == '__main__':
                         help='test_result_json_path')
     parser.add_argument('--alpha', type=float, default=1.0, help='fusion loss weight')
 
-    arguments = parser.get_args()
+    arguments = parser.parse_args()
     epochs = arguments.epochs
     lr = arguments.lr
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
