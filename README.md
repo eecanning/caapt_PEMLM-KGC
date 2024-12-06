@@ -23,7 +23,6 @@ An efficient description-based model for KGC
 - 06/12/24 - The code is tentatively organized.
 ## Installation
 
----
 
 ### requirements
 

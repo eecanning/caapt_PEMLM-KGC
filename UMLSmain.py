@@ -4,14 +4,13 @@ import json
 import torch.nn
 from tokenizers import Tokenizer
 from torch.nn import CrossEntropyLoss
-from transformers import AutoConfig, BertModel, BertConfig
-from evaluation import *
-from model import *
+from transformers import BertModel
+from Utils.evaluation import *
 from torch.utils.data import DataLoader
-from utils import *
 import os
-from head2tailDataset import *
-
+from Utils.head2tailDataset import *
+from Utils.utils import *
+from Utils.model import *
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 
