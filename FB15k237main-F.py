@@ -153,11 +153,11 @@ if __name__ == '__main__':
     parser.add_argument('--max_length', type=int, default=128, help='max_length')
     parser.add_argument('--device', type=str, default='cuda:0', help='device')
     parser.add_argument('--seed', type=int, default=42, help='seed')
-    parser.add_argument('--train_result_json_path', type=str, default='log/FB15K237_PEMLM-F_trainResult.json',
+    parser.add_argument('--train_result_json_path', type=str, default='log/FB15k237/FB15K237_PEMLM-F_trainResult.json',
                         help='train_result_json_path')
-    parser.add_argument('--valid_result_json_path', type=str, default='log/FB15K237_PEMLM_valResult.json',
+    parser.add_argument('--valid_result_json_path', type=str, default='log/FB15k237/FB15K237_PEMLM_valResult.json',
                         help='valid_result_json_path')
-    parser.add_argument('--test_result_json_path', type=str, default='log/FB15K237_PEMLM_testResult.json',
+    parser.add_argument('--test_result_json_path', type=str, default='log/FB15k237/FB15K237_PEMLM_testResult.json',
                         help='test_result_json_path')
     parser.add_argument('--alpha', type=float, default=1.0, help='fusion loss weight')
 
