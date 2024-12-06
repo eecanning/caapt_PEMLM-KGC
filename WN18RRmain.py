@@ -140,13 +140,13 @@ if __name__ == '__main__':
     parser.add_argument('--max_length', type=int, default=128, help='max_length')
     parser.add_argument('--device', type=str, default='cuda', help='device')
     parser.add_argument('--seed', type=int, default=42, help='seed')
-    parser.add_argument('--train_result_json_path', type=str, default='log/WN18RR/WN18RR_train_combinehr.json',
+    parser.add_argument('--train_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM_trainResult.json.json',
                         help='train_result_json_path')
-    parser.add_argument('--valid_result_json_path', type=str, default='log/WN18RR/WN18RR_valid_combinehr.json',
+    parser.add_argument('--valid_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM_valResult.json',
                         help='valid_result_json_path')
-    parser.add_argument('--test_result_json_path', type=str, default='log/WN18RR/WN18RR_test_combinehr.json',
+    parser.add_argument('--test_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM_testResult.json',
                         help='test_result_json_path')
-    arguments = parser.get_args()
+    arguments = parser.parse_args()
     epochs = arguments.epochs
     lr = arguments.lr
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
