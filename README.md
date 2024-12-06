@@ -79,13 +79,19 @@ python UNLSmain.py --train_batch_size 256 --lr 1e-5 --epochs 200
 Running with PEMLM
 ---
 ### Running PEMLM-F for **FB15k-237**
+
 ```aiignore
-python FB155k237main-F.py --train_batch_size 256 --lr 1e-5 --tran_lr 1e-4 --epochs 200 --alpha 1.0
+python FB15k237main-F.py --train_batch_size 256 --lr 1e-5 --tran_lr 1e-4 --epochs 200 --alpha 1.0
 ```
+
 ---
 ### Running PEMLM-F for **WN18RR**
+
+```aiignore
+python WN18RRmain-F.py --train_batch_size 256 --lr 3e-5 --tran_lr 1e-3 --epochs 200 --alpha 2.0
 ```
-```
+---
+
 [//]: # (## Contributing 贡献指南)
 
 [//]: # ()
