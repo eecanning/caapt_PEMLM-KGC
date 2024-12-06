@@ -43,22 +43,22 @@ You can get three BERT-base precoding embeddings by running the following comman
 
 #### FB15k-237 Dataset
 ```
-python buildwordEmbedding.py --entity2text_path data/FB15k-237/entity2textlong_filter.txt' --relation2text data/FB15k-237/reverse_relation2text.txt --tokenizer_save_path model/FB15k237_tokenizer.json --embedding_path model/FB15k237_word_embeddings.pt
+python buildwordEmbedding.py --entity2text_path data/FB15k-237/entity2textlong_filter.txt --relation2text data/FB15k-237/reverse_relation2text.txt --tokenizer_save_path model/FB15k237_tokenizer.json --embedding_path model/FB15k237_word_embeddings.pt
 ```
 #### WN18RR Dataset
 ```aiignore
-python buildwordEmbedding.py --entity2text_path data/WN18RR/entity2text_filter.txt' --relation2text data/WN18RR/reverse_relation2text.txt --tokenizer_save_path model/WN18RR_tokenizer.json --embedding_path model/WN18RR_word_embeddings.pt
+python buildwordEmbedding.py --entity2text_path data/WN18RR/entity2text_filter.txt --relation2text data/WN18RR/reverse_relation2text.txt --tokenizer_save_path model/WN18RR_tokenizer.json --embedding_path model/WN18RR_word_embeddings.pt
 ```
 #### UMLS Dataset
 ```aiignore
-python buildwordEmbedding.py --entity2text_path data/UMLS/entity2textlong.txt' --relation2text data/UMLS/reverse_relation2text.txt --tokenizer_save_path model/UMLS_tokenizer.json --embedding_path model/UMLS_word_embeddings.pt
+python buildwordEmbedding.py --entity2text_path data/UMLS/entity2textlong.txt --relation2text data/UMLS/reverse_relation2text.txt --tokenizer_save_path model/UMLS_tokenizer.json --embedding_path model/UMLS_word_embeddings.pt
 ```
 ## Running with PEMLM
 
 ---
 ### Running PEMLM for **FB15k-237**
 ```aiignore
-python FB15k237main.py --train_batch_size 256 --lr 1e-5 --epoch 200 
+python FB15k237main.py --train_batch_size 256 --lr 1e-5 --epochs 200 
 ```
 the trained weight is saved in **parameter/FB15k237_PEMLM.pth** and train/val log will be saved in **log/FB15K237_PEMLM_trainResult.json and log/FB15K237_PEMLM_valResult.json**
 
@@ -67,8 +67,13 @@ you can add --weight_path xxx.pth --train_result_json_path xxx.json --valid_resu
 ---
 ### Running PEMLM for **WN18RR**
 ```aiignore
-python WN18RRmain.py --train_batch_size 256 --lr 3e-5 --epoch 200 
+python WN18RRmain.py --train_batch_size 256 --lr 3e-5 --epochs 200 
 
+```
+---
+### Running PEMLM for **UMLS**
+```aiignore
+python UNLSmain.py --train_batch_size 256 --lr 1e-5 --epochs 200
 ```
 
 [//]: # (## Contributing 贡献指南)
