@@ -5,7 +5,7 @@ import torch.nn
 from tokenizers import Tokenizer
 from torch.nn import CrossEntropyLoss
 from transformers import AutoConfig, BertModel, BertConfig
-from evaluation1 import *
+from evaluation import *
 from fusion_models import *
 from torch.utils.data import DataLoader
 from utils import *
@@ -15,12 +15,9 @@ from
 
 def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,label_num,device):
     max_MRR = 0
-    lr = arguments.lr
-
-
     params = [
-        {'params':model.transE.entity_embeddings.weight,'lr':1e-4},
-        {'params':model.transE.relation_embeddings.weight,'lr':1e-4},
+        {'params':model.transE.entity_embeddings.weight,'lr':arguments.tran_lr},
+        {'params':model.transE.relation_embeddings.weight,'lr':arguments.tran_lr},
         {'params':[param for name,param in model.named_parameters() if 'transE' not in name],'lr':lr}
     ]
     criterion = CrossEntropyLoss()
@@ -136,6 +133,8 @@ if __name__ == '__main__':
     parser.add_argument('--train_batch_size', type=int, default=256, help='Batch size for training')
     parser.add_argument('--val_batch_size', type=int, default=64, help='Batch size for validation')
     parser.add_argument('--lr', type=float, default=1e-5, help='Learning rate for training')
+    parser.add_argument('--tran_lr', type=float, default=1e-4, help='Learning rate for training')
+
     parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
     parser.add_argument('--weight_path', type=str, default='parameter/FB15k237_PEMLM-F.pth', help='model_weight_path')
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
@@ -197,11 +196,8 @@ if __name__ == '__main__':
     vocab = tokenizer.get_vocab()
     entity2id = read_entity(arguments.entity_path)
     label_num = len(entity2id)
-    transe = NewTransE(label_num,relation_num,arguments.hidden_size,groundtruth,entity2id)
+    transe = TransE(label_num,relation_num,arguments.hidden_size,groundtruth,entity2id)
     classifier = Classifier(arguments.hidden_size,label_num)
-    #
-    #simpleMlp
-    # simpleMlp = simpleMLP(arguments.hidden_size*2,arguments.hidden_size)
     simpleMlp = simpleMLP(arguments.hidden_size*2,arguments.hidden_size)
     hidden_size = arguments.hidden_size
 
@@ -210,9 +206,7 @@ if __name__ == '__main__':
     # #if weight exists, load it
     weight_path = arguments.weight_path
     Bert.embeddings.word_embeddings.weight = torch.nn.Parameter(new_word_embeddings_weight)
-    # Bert_model = MASKBertModel(Bert, tokenizer, device)
-    # model = MASKBertFusionModel(Bert,transe,complexMlp,tokenizer,classifier,device).to(device)
-    model = NewMASKBertFusionModel(Bert,transe,simpleMlp,tokenizer,classifier,device).to(device)
+    model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier,device).to(device)
 
     if os.path.exists(weight_path):
         model.load_state_dict(torch.load(weight_path))
