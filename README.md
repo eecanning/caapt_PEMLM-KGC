@@ -1,7 +1,10 @@
 # PEMLM-KGC [ORGANIZING]
+
+---
 > Joint Pre-Encoding Representation and Sturcture Embedding for Efficient and Low-Resource Knowledge Graph Completion
 
 [//]: # (![image]&#40;https://github.com/qiucy23/PEMLM-KGC/blob/main/model_pic.png&#41;)
+
 
 
 
@@ -12,9 +15,13 @@
 [//]: # ([![Downloads Stats][npm-downloads]][npm-url])
 
 An efficient description-based model for KGC
-![](https://github.com/qiucy23/PEMLM-KGC/blob/main/model_pic.png)
+![](https://github.com/qiucy23/PEMLM-KGC/blob/main/pic/model_pic.png)
+---
+![](https://github.com/qiucy23/PEMLM-KGC/blob/main/pic/PEMLM-F.png)
 
-## Getting Started 
+## Update
+- 06/12/24 - The code is tentatively organized.
+## Installation
 
 ---
 
@@ -25,8 +32,9 @@ you can use pip install from requirements.txt
 pip install -r requirements.txt
 ```
 
----
-### sepcial notes of files in dataset
+
+## Getting Start
+### Something you may want to know
 
 * **entity2text.txt** means **short** text entity description.
 * **entity2textlong.txt** means **long** text entity description.
@@ -42,21 +50,33 @@ pip install -r requirements.txt
 You can get three BERT-base precoding embeddings by running the following commands
 
 #### FB15k-237 Dataset
-```
-python buildwordEmbedding.py --entity2text_path data/FB15k-237/entity2textlong_filter.txt --relation2text data/FB15k-237/reverse_relation2text.txt --tokenizer_save_path model/FB15k237_tokenizer.json --embedding_path model/FB15k237_word_embeddings.pt
+```aiignore
+python buildwordEmbedding.py \
+--entity2text_path data/FB15k-237/entity2textlong_filter.txt \
+--relation2text data/FB15k-237/reverse_relation2text.txt \
+--tokenizer_save_path model/FB15k237_tokenizer.json \
+--embedding_path model/FB15k237_word_embeddings.pt
 ```
 #### WN18RR Dataset
 ```aiignore
-python buildwordEmbedding.py --entity2text_path data/WN18RR/entity2text_filter.txt --relation2text data/WN18RR/reverse_relation2text.txt --tokenizer_save_path model/WN18RR_tokenizer.json --embedding_path model/WN18RR_word_embeddings.pt
+python buildwordEmbedding.py \
+--entity2text_path data/WN18RR/entity2text_filter.txt \
+--relation2text data/WN18RR/reverse_relation2text.txt \
+--tokenizer_save_path model/WN18RR_tokenizer.json \
+--embedding_path model/WN18RR_word_embeddings.pt
 ```
 #### UMLS Dataset
 ```aiignore
-python buildwordEmbedding.py --entity2text_path data/UMLS/entity2textlong.txt --relation2text data/UMLS/reverse_relation2text.txt --tokenizer_save_path model/UMLS_tokenizer.json --embedding_path model/UMLS_word_embeddings.pt
+python buildwordEmbedding.py \
+--entity2text_path data/UMLS/entity2textlong.txt \
+--relation2text data/UMLS/reverse_relation2text.txt \
+--tokenizer_save_path model/UMLS_tokenizer.json \
+--embedding_path model/UMLS_word_embeddings.pt
 ```
-## Running with PEMLM
+### Running with PEMLM
 
 ---
-### Running PEMLM for **FB15k-237**
+#### Running PEMLM for **FB15k-237**
 ```aiignore
 python FB15k237main.py --train_batch_size 256 --lr 1e-5 --epochs 200 
 ```
@@ -65,10 +85,11 @@ the trained weight is saved in **parameter/FB15k237_PEMLM.pth** and train/val lo
 you can add --weight_path xxx.pth --train_result_json_path xxx.json --valid_result_json_path xxx.json for customize your save path
 
 ---
-### Running PEMLM for **WN18RR**
+#### Running PEMLM for **WN18RR**
+
+
 ```aiignore
 python WN18RRmain.py --train_batch_size 256 --lr 3e-5 --epochs 200 
-
 ```
 ---
 ### Running PEMLM for **UMLS**
@@ -81,21 +102,51 @@ Running with PEMLM
 ### Running PEMLM-F for **FB15k-237**
 
 ```aiignore
-python FB15k237main-F.py --train_batch_size 256 --hidden_size 768  --lr 1e-5 --tran_lr 1e-4 --epochs 200 --alpha 1.0
+python FB15k237main-F.py \
+--train_batch_size 256 \
+-hidden_size 768  \
+--lr 1e-5 \
+--tran_lr 1e-4 \
+--epochs 200 \
+--alpha 1.0
 ```
 
 ---
 ### Running PEMLM-F for **WN18RR**
 
 ```aiignore
-python WN18RRmain-F.py --train_batch_size 256 --hidden_size 768  --lr 3e-5 --tran_lr 1e-3 --epochs 200 --alpha 2.0
+python WN18RRmain-F.py \
+--train_batch_size 256 \
+--hidden_size 768 \
+--lr 3e-5 \
+--tran_lr 1e-3 \
+--epochs 200 \
+--alpha 2.0
 ```
 ---
 ### Running PEMLM-F for **UMLS**
 
 ```aiignore
-python UMLSmain-F.py --train_batch_size 256 --hidden_size 768 --lr 1e-5 --tran_lr 1e-4 --epochs 200 --alpha 0.5
+python UMLSmain-F.py \
+--train_batch_size 256 \
+--hidden_size 768 \
+--lr 1e-5 \
+--tran_lr 1e-4 \
+--epochs 200 \
+--alpha 0.5
 ```
+
+
+## Citation
+#### If our work inspires you or use our code in your research, we would greatly appreciate it if you could **STAR** this repository. 
+
+    @inproceedings{qiu2024joint,
+        title={Joint Pre-Encoding Representation and Structure Embedding for Efficient and Low-Resource Knowledge Graph Completion},
+        author={Qiu, Chenyu and Qian, Pengjiang and Wang, Chuang and Yao, Jian and Liu, Li and Wei, Fang and Eddie, Eddie},
+        booktitle={Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing},
+        pages={15257--15269},
+            year={2024}
+    }
 
 [//]: # (## Contributing 贡献指南)
 
