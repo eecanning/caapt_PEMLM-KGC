@@ -100,5 +100,5 @@ if __name__ == '__main__':
     word_embeddings_weight = torch.cat((word_embeddings_weight, mask_embedding.unsqueeze(0)), dim=0)
     word_embeddings_weight = torch.cat((word_embeddings_weight, unk_embedding.unsqueeze(0)), dim=0)
 
-    tokenizer.save(arguments.tokenizer_save_path)
+    tokenizer.save(arguments.tokenizer_path)
     torch.save(word_embeddings_weight, arguments.embedding_path)
