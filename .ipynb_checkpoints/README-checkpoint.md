@@ -50,7 +50,7 @@ You can get three BERT-base precoding embeddings by running the following comman
 
 #### FB15k-237 Dataset
 ```aiignore
-python Utils/buildWordEmbedding.py \
+python Utils/buildwordEmbedding.py \
 --entity2text_path data/FB15k-237/entity2textlong_filter.txt \
 --relation2text data/FB15k-237/reverse_relation2text.txt \
 --tokenizer_save_path model/FB15k237_tokenizer.json \
@@ -58,7 +58,7 @@ python Utils/buildWordEmbedding.py \
 ```
 #### WN18RR Dataset
 ```aiignore
-python Utils/buildWordEmbedding.py \
+python Utils/buildwordEmbedding.py \
 --entity2text_path data/WN18RR/entity2text_filter.txt \
 --relation2text data/WN18RR/reverse_relation2text.txt \
 --tokenizer_save_path model/WN18RR_tokenizer.json \
@@ -66,7 +66,7 @@ python Utils/buildWordEmbedding.py \
 ```
 #### UMLS Dataset
 ```aiignore
-python Utils/buildWordEmbedding.py \
+python Utils/buildwordEmbedding.py \
 --entity2text_path data/UMLS/entity2textlong.txt \
 --relation2text data/UMLS/reverse_relation2text.txt \
 --tokenizer_save_path model/UMLS_tokenizer.json \
@@ -103,8 +103,7 @@ Running with PEMLM
 ```aiignore
 python FB15k237main-F.py \
 --train_batch_size 256 \
---hidden_size 768  \
---embedding_size 50 \
+-hidden_size 768  \
 --lr 1e-5 \
 --tran_lr 1e-4 \
 --epochs 200 \
@@ -116,9 +115,8 @@ python FB15k237main-F.py \
 
 ```aiignore
 python WN18RRmain-F.py \
---train_batch_size 128 \
+--train_batch_size 256 \
 --hidden_size 768 \
---embedding_size 50 \
 --lr 3e-5 \
 --tran_lr 1e-3 \
 --epochs 200 \
@@ -129,9 +127,8 @@ python WN18RRmain-F.py \
 
 ```aiignore
 python UMLSmain-F.py \
---train_batch_size 50 \
+--train_batch_size 256 \
 --hidden_size 768 \
---embedding_size 768 \
 --lr 1e-5 \
 --tran_lr 1e-4 \
 --epochs 200 \

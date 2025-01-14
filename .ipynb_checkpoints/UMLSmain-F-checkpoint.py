@@ -10,20 +10,24 @@ from Utils.fusion_models import *
 from torch.utils.data import DataLoader
 import os
 from Utils.head2tailDataset import *
-from Utils.model import *
 from Utils.utils import *
+from Utils.model import *
+
 
 def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,label_num,device):
-    max_MRR = 0
+    max_MR = 100000
+
     #交叉熵损失函数
     criterion = CrossEntropyLoss()
     params = [
-        {'params':model.transE.entity_embeddings.weight,'lr':arguments.tran_lr},
-        {'params':model.transE.relation_embeddings.weight,'lr':arguments.tran_lr},
+        {'params':model.transE.entity_embeddings.weight,'lr': arguments.tran_lr},
+        {'params':model.transE.relation_embeddings.weight,'lr': arguments.tran_lr},
         {'params':[param for name,param in model.named_parameters() if 'transE' not in name],'lr':lr}
     ]
+    # optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     optimizer = torch.optim.Adam(params,lr=lr)
     for epoch in range(epochs):
+
         model.train()
         train_tail_loss = 0
         bar = tqdm(total = len(train_dataloader),desc=f'Epoch{epoch+1}/{epochs}', ncols=100)
@@ -122,46 +126,47 @@ def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,label_
             json.dump(test_epoch_result, jsf)
             jsf.write('\n')
         #save model if mean MRR > max_MRR
-        if tail_MRR > max_MRR:
-            max_MRR = tail_MRR
+        if tail_MR < max_MR:
+            max_MR = tail_MR
             torch.save(model.state_dict(), arguments.weight_path)
             print('model saved')
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Your script description")
-    parser.add_argument('--train_batch_size', type=int, default=128, help='Batch size for training')
+    parser = argparse.ArgumentParser(description="UMLS training and validation")
+    parser.add_argument('--train_batch_size', type=int, default=256, help='Batch size for training')
     parser.add_argument('--val_batch_size', type=int, default=64, help='Batch size for validation')
-    parser.add_argument('--lr', type=float, default=3e-5, help='Learning rate for training')
-    parser.add_argument('--tran_lr', type=float, default=1e-3, help='Learning rate for transModel')
+    parser.add_argument('--lr', type=float, default=1e-5, help='Learning rate for training')
+    parser.add_argument('--tran_lr', type=float, default=1e-4, help='Learning rate for transModel')
     parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
-    parser.add_argument('--weight_path', type=str, default='parameter/WN18RR_PEMLM-F.pth', help='model_weight_path')
+    parser.add_argument('--weight_path', type=str, default='parameter/UMLS_PEMLM-F.pth', help='model_weight_path')
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
-    parser.add_argument('--embedding_path', type=str, default='model/WN18RR_word_embeddings.pt',
-                        help='WN18RR embedding path')
-    parser.add_argument('--embedding_size', type = int, default = 50, help = 'embedding size of embedding model.')
-    parser.add_argument('--tokenizer_path', type=str, default='model/WN18RR_tokenizer.json',
-                        help='tokenizer path')
-    parser.add_argument('--relation2id', type=str, default='data/WN18RR/reverse_relations.txt', help='relation2id path')
-    parser.add_argument('--entity_path', type=str, default='data/WN18RR/entities.txt', help='entity path')
-    parser.add_argument('--train_data_path', type=str, default='data/WN18RR/train.tsv', help='train data path')
-    parser.add_argument('--valid_data_path', type=str, default='data/WN18RR/valid_filter.tsv', help='valid data path')
-    parser.add_argument('--test_data_path', type=str, default='data/WN18RR/test_filter.tsv', help='test data path')
-    parser.add_argument('--hidden_size', type=int, default=768, help='hidden size')
+    parser.add_argument('--embedding_path', type=str, default='model/UMLS_word_embeddings.pt',
+                        help='UMLS embedding path')
+    parser.add_argument('--tokenizer_path', type=str, default='model/UMLS_tokenizer.json', help='tokenizer path')
+    parser.add_argument('--entity_path', type=str, default='data/UMLS/entities.txt', help='entity path')
+    parser.add_argument('--relation_path', type=str, default='data/UMLS/reverse_relations.txt', help='entity path')
+    parser.add_argument('--entity2text_path', type=str, default='data/UMLS/entity2textlong.txt',
+                        help='entity2text path')
+    parser.add_argument('--relation2text_path', type=str, default='data/UMLS/reverse_relation2text.txt',
+                        help='relation2text path')
+    parser.add_argument('--train_data_path', type=str, default='data/UMLS/train.tsv', help='train data path')
+    parser.add_argument('--valid_data_path', type=str, default='data/UMLS/dev.tsv', help='valid data path')
+    parser.add_argument('--test_data_path', type=str, default='data/UMLS/test.tsv', help='test data path')
+    parser.add_argument('--hidden_size', type=int, default=768, help='hidden size for transModel')
     parser.add_argument('--num_attention_heads', type=int, default=4, help='num_attention_heads')
     parser.add_argument('--num_hidden_layers', type=int, default=12, help='num_hidden_layers')
     parser.add_argument('--max_length', type=int, default=128, help='max_length')
     parser.add_argument('--device', type=str, default='cuda', help='device')
     parser.add_argument('--seed', type=int, default=42, help='seed')
-    parser.add_argument('--train_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_trainResult.json',
+    parser.add_argument('--train_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_trainResult.json',
                         help='train_result_json_path')
-    parser.add_argument('--valid_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_valResult.json',
+    parser.add_argument('--valid_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_valResult.json',
                         help='valid_result_json_path')
-    parser.add_argument('--test_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_testResult.json',
+    parser.add_argument('--test_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_testResult.json',
                         help='test_result_json_path')
-    parser.add_argument('--alpha', type=float, default=1.0, help='fusion loss weight')
+    parser.add_argument('--alpha', type=float, default=0.5, help='fusion loss weight')
 
     arguments = parser.parse_args()
-
     epochs = arguments.epochs
     lr = arguments.lr
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
@@ -173,24 +178,25 @@ if __name__ == '__main__':
     test_data = read_triplets_from_txt(arguments.test_data_path)
     train_data_reverse = []
     for triplet in train_data:
-        train_data_reverse.append([triplet[2], 'be' + triplet[1], triplet[0]])
+        train_data_reverse.append([triplet[2], 'be_' + triplet[1], triplet[0]])
     onlyTail_train_data = train_data + train_data_reverse
     valid_data_reverse = []
     for triplet in valid_data:
-        valid_data_reverse.append([triplet[2], 'be' + triplet[1], triplet[0]])
+        valid_data_reverse.append([triplet[2], 'be_' + triplet[1], triplet[0]])
     onlyTail_val_data = valid_data + valid_data_reverse
     test_data_reverse = []
     for triplet in test_data:
-        test_data_reverse.append([triplet[2], 'be' + triplet[1], triplet[0]])
+        test_data_reverse.append([triplet[2], 'be_' + triplet[1], triplet[0]])
     onlyTail_test_data = test_data + test_data_reverse
     entity2id = read_entity(arguments.entity_path)
-    relation2id = read_entity(arguments.relation2id)
+    relation2id = read_entity(arguments.relation_path)
     entity_set = set(entity2id.keys())
     label_num = len(entity2id)
     relation_num = len(relation2id)
     groundtruth = count_groundtruth(onlyTail_train_data, onlyTail_val_data, onlyTail_test_data)
+
     Bert = BertModel.from_pretrained(arguments.model_path).to(device)
-    #freeze embedding layer
+    # freeze embedding
     # for param in Bert_model.embeddings.word_embeddings.parameters():
     #     param.requires_grad = False
     tokenizer = Tokenizer.from_file(arguments.tokenizer_path)
@@ -198,17 +204,17 @@ if __name__ == '__main__':
     entity2id = read_entity(arguments.entity_path)
     label_num = len(entity2id)
     # TransE model
-    # transe = TransE(label_num,relation_num,arguments.hidden_size,groundtruth,entity2id)
-    transe = TransE(label_num,relation_num,arguments.embedding_size,groundtruth,entity2id)
-
+    # transe = TransE(label_num,relation_num,arguments.hidden_size)
+    transe = TransE(label_num,relation_num,arguments.hidden_size,groundtruth,entity2id)
     classifier = Classifier(arguments.hidden_size,label_num)
+    #
     #simpleMlp
-    simpleMlp = simpleMLP(arguments.hidden_size + arguments.embedding_size, arguments.hidden_size)
+    simpleMlp = simpleMLP(arguments.hidden_size*2,arguments.hidden_size)
 
     new_word_embeddings_weight = torch.load(arguments.embedding_path)
-    # if weight exists, load it
+    # #if weight exists, load it
     weight_path = arguments.weight_path
-    # PEMLM -F
+    # PEMLM-F model
     Bert.embeddings.word_embeddings.weight = torch.nn.Parameter(new_word_embeddings_weight)
     model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier,device).to(device)
     if os.path.exists(weight_path):
@@ -220,11 +226,14 @@ if __name__ == '__main__':
 
     #train_data
 
-    input_ids,heads,relations,labels = get_data_from_rawdata_fusion(tokenizer, onlyTail_train_data, entity2id,relation2id,'tail-batch')
-    train_dataset = OnlyTailDataset_fusion(input_ids,heads,relations,labels)
 
-    input_ids,heads,relations,labels = get_data_from_rawdata_fusion(tokenizer, onlyTail_test_data, entity2id,relation2id,'tail-batch')
-    test_dataset = OnlyTailDataset_fusion(input_ids,heads,relations,labels)
+    input_ids,heads,relations,labels = get_data_from_rawdata(tokenizer, onlyTail_train_data, entity2id,relation2id,
+                                                                               'tail-batch')
+    train_dataset = OnlyTailDataset(input_ids,heads,relations,labels)
+
+    input_ids,heads,relations,labels = get_data_from_rawdata(tokenizer, onlyTail_test_data, entity2id,relation2id,
+                                                                               'tail-batch')
+    test_dataset = OnlyTailDataset(input_ids,heads,relations,labels)
 
     train_dataloader = DataLoader(train_dataset,batch_size = arguments.train_batch_size,shuffle=True)
     test_dataloader = DataLoader(test_dataset,batch_size = arguments.val_batch_size,shuffle=False)
