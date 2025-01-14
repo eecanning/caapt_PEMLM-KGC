@@ -137,6 +137,8 @@ if __name__ == '__main__':
     parser.add_argument('--weight_path', type=str, default='parameter/FB15k237_PEMLM-F.pth', help='model_weight_path')
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
     parser.add_argument('--embedding_path', type=str, default='model/FB15k237_word_embeddings.pt', help='FB15k237 embedding path')
+    parser.add_argument('--embedding_size', type = int, default = 50, help = 'embedding size of embedding model.')
+
     parser.add_argument('--tokenizer_path', type=str, default='model/FB15k237_tokenizer.json', help='tokenizer path')
     parser.add_argument('--relation2id', type=str, default='data/FB15k-237/reverse_relations.txt', help='relation2id path')
     parser.add_argument('--entity_path', type=str, default='data/FB15k-237/entities.txt', help='entity path')
@@ -194,9 +196,9 @@ if __name__ == '__main__':
     vocab = tokenizer.get_vocab()
     entity2id = read_entity(arguments.entity_path)
     label_num = len(entity2id)
-    transe = TransE(label_num,relation_num,arguments.hidden_size,groundtruth,entity2id)
+    transe = TransE(label_num,relation_num,arguments.embedding_size,groundtruth,entity2id)
     classifier = Classifier(arguments.hidden_size,label_num)
-    simpleMlp = simpleMLP(arguments.hidden_size*2,arguments.hidden_size)
+    simpleMlp = simpleMLP(arguments.hidden_size + arguments.embedding_size,arguments.hidden_size)
     hidden_size = arguments.hidden_size
 
     new_word_embeddings_weight = torch.load(arguments.embedding_path)

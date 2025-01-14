@@ -142,6 +142,8 @@ if __name__ == '__main__':
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
     parser.add_argument('--embedding_path', type=str, default='model/UMLS_word_embeddings.pt',
                         help='UMLS embedding path')
+    parser.add_argument('--embedding_size', type = int, default = 50, help = 'embedding size of embedding model.')
+
     parser.add_argument('--tokenizer_path', type=str, default='model/UMLS_tokenizer.json', help='tokenizer path')
     parser.add_argument('--entity_path', type=str, default='data/UMLS/entities.txt', help='entity path')
     parser.add_argument('--relation_path', type=str, default='data/UMLS/reverse_relations.txt', help='entity path')
@@ -205,11 +207,11 @@ if __name__ == '__main__':
     label_num = len(entity2id)
     # TransE model
     # transe = TransE(label_num,relation_num,arguments.hidden_size)
-    transe = TransE(label_num,relation_num,arguments.hidden_size,groundtruth,entity2id)
+    transe = TransE(label_num,relation_num,arguments.embedding_size,groundtruth,entity2id)
     classifier = Classifier(arguments.hidden_size,label_num)
     #
     #simpleMlp
-    simpleMlp = simpleMLP(arguments.hidden_size*2,arguments.hidden_size)
+    simpleMlp = simpleMLP(arguments.hidden_size + arguments.embedding_size,arguments.hidden_size)
 
     new_word_embeddings_weight = torch.load(arguments.embedding_path)
     # #if weight exists, load it

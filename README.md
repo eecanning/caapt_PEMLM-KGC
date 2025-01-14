@@ -103,7 +103,8 @@ Running with PEMLM
 ```aiignore
 python FB15k237main-F.py \
 --train_batch_size 256 \
--hidden_size 768  \
+--hidden_size 768  \
+--embedding_size 50 \
 --lr 1e-5 \
 --tran_lr 1e-4 \
 --epochs 200 \
@@ -115,8 +116,9 @@ python FB15k237main-F.py \
 
 ```aiignore
 python WN18RRmain-F.py \
---train_batch_size 256 \
+--train_batch_size 128 \
 --hidden_size 768 \
+--embedding_size 50 \
 --lr 3e-5 \
 --tran_lr 1e-3 \
 --epochs 200 \
@@ -127,8 +129,9 @@ python WN18RRmain-F.py \
 
 ```aiignore
 python UMLSmain-F.py \
---train_batch_size 256 \
+--train_batch_size 50 \
 --hidden_size 768 \
+--embedding_size 768 \
 --lr 1e-5 \
 --tran_lr 1e-4 \
 --epochs 200 \
