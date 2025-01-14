@@ -227,13 +227,13 @@ if __name__ == '__main__':
     #train_data
 
 
-    input_ids,heads,relations,labels = get_data_from_rawdata(tokenizer, onlyTail_train_data, entity2id,relation2id,
+    input_ids,heads,relations,labels = get_data_from_rawdata_fusion(tokenizer, onlyTail_train_data, entity2id,relation2id,
                                                                                'tail-batch')
-    train_dataset = OnlyTailDataset(input_ids,heads,relations,labels)
+    train_dataset = OnlyTailDataset_fusion(input_ids,heads,relations,labels)
 
-    input_ids,heads,relations,labels = get_data_from_rawdata(tokenizer, onlyTail_test_data, entity2id,relation2id,
+    input_ids,heads,relations,labels = get_data_from_rawdata_fusion(tokenizer, onlyTail_test_data, entity2id,relation2id,
                                                                                'tail-batch')
-    test_dataset = OnlyTailDataset(input_ids,heads,relations,labels)
+    test_dataset = OnlyTailDataset_fusion(input_ids,heads,relations,labels)
 
     train_dataloader = DataLoader(train_dataset,batch_size = arguments.train_batch_size,shuffle=True)
     test_dataloader = DataLoader(test_dataset,batch_size = arguments.val_batch_size,shuffle=False)
