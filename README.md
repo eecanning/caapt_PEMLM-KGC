@@ -50,7 +50,7 @@ You can get three BERT-base precoding embeddings by running the following comman
 
 #### FB15k-237 Dataset
 ```aiignore
-python Utils/buildwordEmbedding.py \
+python Utils/buildWordEmbedding.py \
 --entity2text_path data/FB15k-237/entity2textlong_filter.txt \
 --relation2text data/FB15k-237/reverse_relation2text.txt \
 --tokenizer_save_path model/FB15k237_tokenizer.json \
@@ -58,7 +58,7 @@ python Utils/buildwordEmbedding.py \
 ```
 #### WN18RR Dataset
 ```aiignore
-python Utils/buildwordEmbedding.py \
+python Utils/buildWordEmbedding.py \
 --entity2text_path data/WN18RR/entity2text_filter.txt \
 --relation2text data/WN18RR/reverse_relation2text.txt \
 --tokenizer_save_path model/WN18RR_tokenizer.json \
@@ -66,7 +66,7 @@ python Utils/buildwordEmbedding.py \
 ```
 #### UMLS Dataset
 ```aiignore
-python Utils/buildwordEmbedding.py \
+python Utils/buildWordEmbedding.py \
 --entity2text_path data/UMLS/entity2textlong.txt \
 --relation2text data/UMLS/reverse_relation2text.txt \
 --tokenizer_save_path model/UMLS_tokenizer.json \
