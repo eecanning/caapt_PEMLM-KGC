@@ -2,7 +2,6 @@ import argparse
 import json
 from Utils.Embedding_models import *
 import torch.nn
-from Utils.utils import *
 from tokenizers import Tokenizer
 from torch.nn import CrossEntropyLoss
 from transformers import BertModel
@@ -11,7 +10,8 @@ from Utils.fusion_models import *
 from torch.utils.data import DataLoader
 import os
 from Utils.head2tailDataset import *
-
+from Utils.model import *
+from Utils.utils import *
 def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,label_num,device):
     max_MRR = 0
     params = [
@@ -19,7 +19,7 @@ def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,label_
         {'params':model.transE.relation_embeddings.weight,'lr':arguments.tran_lr},
         {'params':[param for name,param in model.named_parameters() if 'transE' not in name],'lr':lr}
     ]
-    criterion = CrossEntropyLoss()
+    criterion = CrossEntropyLoss(label_smoothing=0.8)
     optimizer = torch.optim.Adam(params,lr=lr)
     for epoch in range(epochs):
 
@@ -142,7 +142,8 @@ if __name__ == '__main__':
     parser.add_argument('--tokenizer_path', type=str, default='model/FB15k237_tokenizer.json', help='tokenizer path')
     parser.add_argument('--relation2id', type=str, default='data/FB15k-237/reverse_relations.txt', help='relation2id path')
     parser.add_argument('--entity_path', type=str, default='data/FB15k-237/entities.txt', help='entity path')
-    parser.add_argument('--train_data_path', type=str, default='data/FB15k-237/train_filter.tsv', help='train data path')
+    parser.add_argument('--train_data_path', type=str, default='data/FB15k-237/train_filter.tsv',
+                        help='train data path')
     parser.add_argument('--valid_data_path', type=str, default='data/FB15k-237/valid_filter.tsv',
                         help='valid data path')
     parser.add_argument('--test_data_path', type=str, default='data/FB15k-237/test_filter.tsv', help='test data path')
@@ -159,11 +160,11 @@ if __name__ == '__main__':
     parser.add_argument('--test_result_json_path', type=str, default='log/FB15k237/FB15K237_PEMLM_testResult.json',
                         help='test_result_json_path')
     parser.add_argument('--alpha', type=float, default=1.0, help='fusion loss weight')
+    parser.add_argument('--negative_nums', type=int, default=256, help='numbers of negative samples ')
 
     arguments = parser.parse_args()
     epochs = arguments.epochs
     lr = arguments.lr
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
     device = arguments.device
 
@@ -189,9 +190,7 @@ if __name__ == '__main__':
     label_num = len(entity2id)
     relation_num = len(relation2id)
     groundtruth = count_groundtruth(onlyTail_train_data, onlyTail_val_data, onlyTail_test_data)
-
     Bert = BertModel.from_pretrained(arguments.model_path).to(device)
-
     tokenizer = Tokenizer.from_file(arguments.tokenizer_path)
     vocab = tokenizer.get_vocab()
     entity2id = read_entity(arguments.entity_path)
@@ -206,7 +205,7 @@ if __name__ == '__main__':
     # #if weight exists, load it
     weight_path = arguments.weight_path
     Bert.embeddings.word_embeddings.weight = torch.nn.Parameter(new_word_embeddings_weight)
-    model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier,device).to(device)
+    model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier, arguments.negative_nums,device).to(device)
 
     if os.path.exists(weight_path):
         model.load_state_dict(torch.load(weight_path))

@@ -167,11 +167,11 @@ if __name__ == '__main__':
     parser.add_argument('--test_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_testResult.json',
                         help='test_result_json_path')
     parser.add_argument('--alpha', type=float, default=0.5, help='fusion loss weight')
+    parser.add_argument('--negative_nums', type=int, default=135, help='numbers of negative samples ')
 
     arguments = parser.parse_args()
     epochs = arguments.epochs
     lr = arguments.lr
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
     device = arguments.device
 
@@ -218,7 +218,7 @@ if __name__ == '__main__':
     weight_path = arguments.weight_path
     # PEMLM-F model
     Bert.embeddings.word_embeddings.weight = torch.nn.Parameter(new_word_embeddings_weight)
-    model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier,device).to(device)
+    model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier, arguments.negative_nums,device).to(device)
     if os.path.exists(weight_path):
         model.load_state_dict(torch.load(weight_path))
         print('model has loaded.')

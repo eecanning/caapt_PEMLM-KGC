@@ -77,7 +77,7 @@ python Utils/buildWordEmbedding.py \
 ---
 #### Running PEMLM for **FB15k-237**
 ```aiignore
-python FB15k237main.py --train_batch_size 256 --lr 1e-5 --epochs 200 
+python FB15k237main.py --train_batch_size 256 --lr 1e-5 --epochs 200 --device cuda:0
 ```
 the trained weight is saved in **parameter/FB15k237_PEMLM.pth** and train/val log will be saved in **log/FB15K237_PEMLM_trainResult.json and log/FB15K237_PEMLM_valResult.json**
 
@@ -88,12 +88,12 @@ you can add --weight_path xxx.pth --train_result_json_path xxx.json --valid_resu
 
 
 ```aiignore
-python WN18RRmain.py --train_batch_size 256 --lr 3e-5 --epochs 200 
+python WN18RRmain.py --train_batch_size 256 --lr 3e-5 --epochs 200 --device cuda:0
 ```
 ---
 ### Running PEMLM for **UMLS**
 ```aiignore
-python UMLSmain.py --train_batch_size 256 --lr 1e-5 --epochs 200
+python UMLSmain.py --train_batch_size 256 --lr 1e-5 --epochs 200 --device cuda:0
 ```
 
 Running with PEMLM
@@ -108,7 +108,9 @@ python FB15k237main-F.py \
 --lr 1e-5 \
 --tran_lr 1e-4 \
 --epochs 200 \
---alpha 1.0
+--alpha 1.0 \
+--negative_nums 2048 \
+--device cuda:0
 ```
 
 ---
@@ -123,6 +125,8 @@ python WN18RRmain-F.py \
 --tran_lr 1e-3 \
 --epochs 200 \
 --alpha 2.0
+--negative_nums 2048 \
+--device cuda:0
 ```
 ---
 ### Running PEMLM-F for **UMLS**
@@ -136,6 +140,8 @@ python UMLSmain-F.py \
 --tran_lr 1e-4 \
 --epochs 200 \
 --alpha 0.5
+--negative_nums 134 \
+--device cuda:0
 ```
 
 
