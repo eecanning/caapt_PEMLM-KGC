@@ -39,7 +39,7 @@ class simpleMLP(nn.Module):
         return x
 
 class PEMLM_F(nn.Module):
-    def __init__(self, bert,transE,simpleMLP,tokenizer,classifier,device):
+    def __init__(self, bert,transE,simpleMLP,tokenizer,classifier,negative_nums, device):
         super(PEMLM_F, self).__init__()
         self.bert = bert.to(device)
         self.tokenizer = tokenizer
@@ -47,6 +47,7 @@ class PEMLM_F(nn.Module):
         self.transE = transE
         self.classifier = classifier
         self.simplemlp = simpleMLP
+        self.negative_nums = negative_nums
 
 
     def forward(self, inputs_embeds,input_ids,heads,relations,tails):
@@ -67,7 +68,7 @@ class PEMLM_F(nn.Module):
         mask_hidden_state = [hidden_state[mask_positions] for hidden_state, mask_positions in
                              zip(output['last_hidden_state'], mask_positions_list)]
         mask_hidden_state = torch.stack(mask_hidden_state)
-        structure_loss = self.transE.InfoNCE_loss(heads,relations,tails)
+        structure_loss = self.transE.InfoNCE_loss(heads,relations,tails, self.negative_nums)
         logit = self.classifier(mask_hidden_state)
 
         return logit,structure_loss
