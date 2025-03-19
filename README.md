@@ -124,7 +124,7 @@ python WN18RRmain-F.py \
 --lr 3e-5 \
 --tran_lr 1e-3 \
 --epochs 200 \
---alpha 2.0
+--alpha 2.0 \
 --negative_nums 2048 \
 --device cuda:0
 ```
@@ -139,7 +139,7 @@ python UMLSmain-F.py \
 --lr 1e-5 \
 --tran_lr 1e-4 \
 --epochs 200 \
---alpha 0.5
+--alpha 0.5 \
 --negative_nums 134 \
 --device cuda:0
 ```
