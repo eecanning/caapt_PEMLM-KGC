@@ -138,7 +138,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=1e-5, help='Learning rate for training')
     parser.add_argument('--tran_lr', type=float, default=1e-4, help='Learning rate for transModel')
     parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
-    parser.add_argument('--weight_path', type=str, default='parameter/UMLS_PEMLM-F.pth', help='model_weight_path')
+    parser.add_argument('--weight_path', type=str, default='parameter/UMLS_PEMLM-F(triple).pth', help='model_weight_path')
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
     parser.add_argument('--embedding_path', type=str, default='model/UMLS_word_embeddings.pt',
                         help='UMLS embedding path')
@@ -160,11 +160,11 @@ if __name__ == '__main__':
     parser.add_argument('--max_length', type=int, default=128, help='max_length')
     parser.add_argument('--device', type=str, default='cuda', help='device')
     parser.add_argument('--seed', type=int, default=42, help='seed')
-    parser.add_argument('--train_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_trainResult.json',
+    parser.add_argument('--train_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_trainResult(triple).json',
                         help='train_result_json_path')
-    parser.add_argument('--valid_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_valResult.json',
+    parser.add_argument('--valid_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_valResult(triple).json',
                         help='valid_result_json_path')
-    parser.add_argument('--test_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_testResult.json',
+    parser.add_argument('--test_result_json_path', type=str, default='log/UMLS/UMLS_PEMLM-F_testResult(triple).json',
                         help='test_result_json_path')
     parser.add_argument('--alpha', type=float, default=0.5, help='fusion loss weight')
     parser.add_argument('--negative_nums', type=int, default=135, help='numbers of negative samples ')

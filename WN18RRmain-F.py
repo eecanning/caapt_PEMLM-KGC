@@ -16,7 +16,7 @@ from Utils.utils import *
 def train_val_epochs(bert,model,train_dataloader,val_dataloader,epochs,lr,label_num,device):
     max_MRR = 0
     #交叉熵损失函数
-    criterion = CrossEntropyLoss()
+    criterion = CrossEntropyLoss(label_smoothing=0.8)
     params = [
         {'params':model.transE.entity_embeddings.weight,'lr':arguments.tran_lr},
         {'params':model.transE.relation_embeddings.weight,'lr':arguments.tran_lr},
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=3e-5, help='Learning rate for training')
     parser.add_argument('--tran_lr', type=float, default=1e-3, help='Learning rate for transModel')
     parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
-    parser.add_argument('--weight_path', type=str, default='parameter/WN18RR_PEMLM-F.pth', help='model_weight_path')
+    parser.add_argument('--weight_path', type=str, default='parameter/WN18RR_PEMLM-F(triple).pth', help='model_weight_path')
     parser.add_argument('--model_path', type=str, default='bert-base-uncased', help='original model path')
     parser.add_argument('--embedding_path', type=str, default='model/WN18RR_word_embeddings.pt',
                         help='WN18RR embedding path')
@@ -150,21 +150,24 @@ if __name__ == '__main__':
     parser.add_argument('--num_attention_heads', type=int, default=4, help='num_attention_heads')
     parser.add_argument('--num_hidden_layers', type=int, default=12, help='num_hidden_layers')
     parser.add_argument('--max_length', type=int, default=128, help='max_length')
-    parser.add_argument('--device', type=str, default='cuda', help='device')
     parser.add_argument('--seed', type=int, default=42, help='seed')
-    parser.add_argument('--train_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_trainResult.json',
+    parser.add_argument('--train_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_trainResult(triple).json',
                         help='train_result_json_path')
-    parser.add_argument('--valid_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_valResult.json',
+    parser.add_argument('--valid_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_valResult(triple).json',
                         help='valid_result_json_path')
-    parser.add_argument('--test_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_testResult.json',
+    parser.add_argument('--test_result_json_path', type=str, default='log/WN18RR/WN18RR_PEMLM-F_testResult(triple).json',
                         help='test_result_json_path')
     parser.add_argument('--alpha', type=float, default=1.0, help='fusion loss weight')
+    parser.add_argument('--negative_nums', type=int, default=256, help='numbers of negative samples ')
+    parser.add_argument('--device', type=str, default='cuda:4',
+                        help="Device to use for computation (e.g., 'cuda:0/1/2/3/4/5/6/7' or 'cpu')")
+
 
     arguments = parser.parse_args()
 
     epochs = arguments.epochs
     lr = arguments.lr
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    # os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
     device = arguments.device
 
@@ -210,7 +213,7 @@ if __name__ == '__main__':
     weight_path = arguments.weight_path
     # PEMLM -F
     Bert.embeddings.word_embeddings.weight = torch.nn.Parameter(new_word_embeddings_weight)
-    model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier,device).to(device)
+    model = PEMLM_F(Bert,transe,simpleMlp,tokenizer,classifier, arguments.negative_nums,device).to(device)
     if os.path.exists(weight_path):
         model.load_state_dict(torch.load(weight_path))
         print('model has loaded.')
@@ -230,5 +233,3 @@ if __name__ == '__main__':
     test_dataloader = DataLoader(test_dataset,batch_size = arguments.val_batch_size,shuffle=False)
 
     train_val_epochs(Bert,model,train_dataloader,test_dataloader,epochs,lr,label_num,device)
-
-
