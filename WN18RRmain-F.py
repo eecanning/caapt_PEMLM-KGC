@@ -233,3 +233,5 @@ if __name__ == '__main__':
     test_dataloader = DataLoader(test_dataset,batch_size = arguments.val_batch_size,shuffle=False)
 
     train_val_epochs(Bert,model,train_dataloader,test_dataloader,epochs,lr,label_num,device)
+
+
