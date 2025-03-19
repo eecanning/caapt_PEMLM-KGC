@@ -32,10 +32,10 @@ class TransE(nn.Module):
         # score = self.b - 0.5 * (torch.norm(head_embeddings + relation_embeddings - tail_embeddings, p=2, dim=-1)**2)
 
         return head_embeddings, relation_embeddings, tail_embeddings
-    def InfoNCE_loss(self,heads,relations,labels):
-        # random_indices = torch.randint(0,len(self.entity2id),(135,))
-        # sample_embedding = self.entity_embeddings.weight.data[random_indices]
-        sample_embedding = self.entity_embeddings.weight.data
+    def InfoNCE_loss(self,heads,relations,labels, negative_nums):
+        random_indices = torch.randint(0,len(self.entity2id),(negative_nums,))
+        sample_embedding = self.entity_embeddings.weight.data[random_indices]
+        # sample_embedding = self.entity_embeddings.weight.data
         h_embedding = self.entity_embeddings(heads.reshape(-1,1))
         r_embedding = self.relation_embeddings(relations.reshape(-1,1))
 
@@ -45,6 +45,41 @@ class TransE(nn.Module):
 
         return loss.mean()
 
+    def triplet_loss(self, heads, relations, labels, negative_nums=1):
+        """
+        修改后的三元组损失函数
+        :param heads: 头实体ID [batch_size]
+        :param relations: 关系ID [batch_size]
+        :param labels: 正样本尾实体ID [batch_size]
+        :param negative_nums: 每个正样本对应的负样本数
+        :return: 三元组损失
+        """
+        batch_size = heads.size(0)
+
+        # 生成负样本（排除正样本）
+        negative_indices = torch.randint(0, self.num_entities - 1, (batch_size, negative_nums))
+        # 过滤正样本
+        mask = (negative_indices == labels.unsqueeze(1)).long()
+        negative_indices = negative_indices + mask
+
+        # 获取所有嵌入
+        h = self.entity_embeddings(heads)  # [batch, embed_dim]
+        r = self.relation_embeddings(relations)  # [batch, embed_dim]
+        pos_t = self.entity_embeddings(labels)  # [batch, embed_dim]
+        neg_t = self.entity_embeddings(negative_indices)  # [batch, neg_num, embed_dim]
+
+        # 计算正负样本得分
+        pos_score = self.score_function(h, r, pos_t)  # [batch]
+        neg_score = self.score_function(
+            h.unsqueeze(1).expand(-1, negative_nums, -1),  # [batch, neg_num, embed_dim]
+            r.unsqueeze(1).expand(-1, negative_nums, -1),  # [batch, neg_num, embed_dim]
+            neg_t
+        )  # [batch, neg_num]
+
+        # 计算三元组损失
+        loss = F.relu(neg_score - pos_score.unsqueeze(1) + self.margin).mean()
+
+        return loss
     def score_function(self,head_embeddings,relation_embeddings,tail_embeddings):
         score = torch.cosine_similarity(head_embeddings+relation_embeddings,tail_embeddings,dim=-1)
         return score

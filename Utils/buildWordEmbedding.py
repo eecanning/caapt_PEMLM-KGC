@@ -8,19 +8,22 @@ from tqdm import tqdm
 import torch
 import json
 from tokenizers import Tokenizer,models
+"""
+huggingface-cli download --resume-download google-bert/bert-base-uncased --local-dir model/bert-base-uncased
+huggingface-cli download --resume-download google-bert/bert-base-chinese --local-dir model/chinese-bert-base
 
+"""
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Build word embedding.")
-    parser.add_argument('--PreEncoding_Model', type=str, default='bert-base-uncased', help="Pre-Encoding model path")
-    parser.add_argument('--main_model',  type=str, default='bert-base-uncased', help="main model path")
+    parser.add_argument('--PreEncoding_Model', type=str, default='model/bert-base-uncased', help="Pre-Encoding model path")
+    parser.add_argument('--main_model',  type=str, default='model/bert-base-uncased', help="main model path")
     parser.add_argument('--entity2text_path', type=str, required=True, help="entity2text file path")
     parser.add_argument('--relation2text_path', type=str, required=True, help="relation2text file path")
     # parser.add_argument('--embedding_json_path', type=str, required=True, help="Pre-Encoding embedding json save path")
     parser.add_argument('--tokenizer_save_path', type=str, required=True, help="new tokenizer path")
     parser.add_argument('--embedding_path', type=str, required=True, help="Pre-Encoding embedding save path")
-
-
-
+    parser.add_argument('--device', type=str, default='cuda:4',
+                        help="Device to use for computation (e.g., 'cuda:0/1/2/3/4/5/6/7' or 'cpu')")
 
     arguments = parser.parse_args()
     model = arguments.PreEncoding_Model
@@ -36,12 +39,12 @@ if __name__ == '__main__':
     total2text.update(entity2text)
     total2text.update(relation2text)
 
-    model_des = model_des.to("cuda:0")
+    model_des = model_des.to(arguments.device)
     word_embeddings = {}
     for item in tqdm(total2text.items()):
         key = item[0]
         des = item[1]
-        input_des = tokenizer(des,return_tensors='pt',max_length=128,truncation=True,padding='max_length').to("cuda:0")
+        input_des = tokenizer(des,return_tensors='pt',max_length=128,truncation=True,padding='max_length').to(arguments.device)
         # output = model_des(**input_des)['pooler_output']
         # mean pool
         output = model_des(**input_des)

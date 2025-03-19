@@ -59,3 +59,7 @@ def count_groundtruth(train_set ,valid_set ,test_set):
         groundtruth['test']['tail'].setdefault((r, h), [])
         groundtruth['test']['tail'][(r, h)].append(t)
     return groundtruth
+
+def reverse_dict(dict):
+    re_dict = {v: k for k,v in dict.items()}
+    return re_dict
