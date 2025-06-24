@@ -1,4 +1,4 @@
-# PEMLM-KGC [ORGANIZING]
+# PEMLM-KGC [ORGANIZED]
 
 ---
 > Joint Pre-Encoding Representation and Sturcture Embedding for Efficient and Low-Resource Knowledge Graph Completion
