@@ -4,12 +4,16 @@ import torch
 from typing import List, Tuple, Dict
 
 # ---------- User settings (hardcoded shortlist & target relation) ----------
-TARGET_RELATION = "https://w3id.org/caapt/decision-making#task_3_rap"
+TARGET_RELATION = "https://w3id.org/caapt/decision-making#task_1_tsc"
 ALLOWED_TAIL_URIS = [
-    "https://w3id.org/caapt/vocabulary#edit",
-    "https://w3id.org/caapt/vocabulary#explain",
-    "https://w3id.org/caapt/vocabulary#discuss",
-    "https://w3id.org/caapt/vocabulary#stet"
+    "https://w3id.org/caapt/vocabulary#person",
+    "https://w3id.org/caapt/vocabulary#place",
+    "https://w3id.org/caapt/vocabulary#thing",
+    "https://w3id.org/caapt/vocabulary#category",
+    "https://w3id.org/caapt/vocabulary#appellation",
+    "https://w3id.org/caapt/vocabulary#emotion",
+    "https://w3id.org/caapt/vocabulary#unknown",
+    "https://w3id.org/caapt/vocabulary#other"
 ]
 # ---------------------------------------------------------------------------
 
