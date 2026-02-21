@@ -114,7 +114,16 @@ def build_allowed_tail_ids(entity_path_or_dict, allowed_uris=None) -> List[int]:
                 missing.append(uri)
 
     if missing:
-        raise ValueError(f"Allowed tail URI(s) not found in entities mapping: {missing}")
+        print(
+            "Allowed tail URI(s) not found in entities mapping and will be ignored: %s",
+            missing
+        )
+
+    if not ids:
+        print(
+            "build_allowed_tail_ids: no allowed tail ids were found. "
+            "Downstream evaluation (shortlist) may produce no results."
+        )
 
     return ids
 
