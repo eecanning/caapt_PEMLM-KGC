@@ -4,15 +4,9 @@ import torch
 from typing import List, Tuple, Dict
 
 # ---------- User settings (hardcoded shortlist & target relation) ----------
-TARGET_RELATION = "https://w3id.org/caapt/decision-making#task_4_cwp"
-TARGET_ENTITY   = "https://w3id.org/caapt/vocabulary#notify"
-CLASS_A_ENTITY  = "http://www.cidoc-crm.org/cidoc-crm/E31_Document"
-RDF_TYPE        = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
-
+TARGET_RELATION = "https://w3id.org/caapt/decision-making#task_5_rnp"
 ALLOWED_TAIL_URIS = [
-    "https://w3id.org/caapt/vocabulary#edit",
-    "https://w3id.org/caapt/vocabulary#explain",
-    "https://w3id.org/caapt/vocabulary#discuss",
+    "https://w3id.org/caapt/vocabulary#review",
     "https://w3id.org/caapt/vocabulary#stet"
 ]
 # ---------------------------------------------------------------------------
